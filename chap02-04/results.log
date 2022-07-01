@@ -1,0 +1,1435 @@
+../testcases/nested_funcs.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("tree", 2);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("key", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("left", 3); field_escape = ref (true);
+                field_ty = ("tree", 2) };
+              { Ast.field_name = ("right", 4); field_escape = ref (true);
+                field_ty = ("tree", 2) }
+              ])
+         }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("prettyprint", 15);
+          fun_params =
+          [{ Ast.field_name = ("tree", 2); field_escape = ref (true);
+             field_ty = ("tree", 2) }
+            ];
+          fun_result = (Some ("string", 0));
+          fun_body =
+          Ast.LetExp {
+            decs =
+            [(Ast.VarDec
+                { Ast.var_name = ("output", 5); var_escape = ref (true);
+                  var_ty = None; var_init = (Ast.StringExp "") });
+              (Ast.FunctionDec
+                 [{ Ast.fun_name = ("write", 8);
+                    fun_params =
+                    [{ Ast.field_name = ("s", 6); field_escape = ref (true);
+                       field_ty = ("string", 0) }
+                      ];
+                    fun_result = None;
+                    fun_body =
+                    Ast.AssignExp {var = (Ast.SimpleVar ("output", 5));
+                      exp =
+                      Ast.CallExp {func = ("concat", 7);
+                        args =
+                        [(Ast.VarExp (Ast.SimpleVar ("output", 5)));
+                          (Ast.VarExp (Ast.SimpleVar ("s", 6)))]}}
+                    }
+                   ]);
+              (Ast.FunctionDec
+                 [{ Ast.fun_name = ("show", 14);
+                    fun_params =
+                    [{ Ast.field_name = ("n", 10); field_escape = ref (true);
+                       field_ty = ("int", 9) };
+                      { Ast.field_name = ("t", 11);
+                        field_escape = ref (true); field_ty = ("tree", 2) }
+                      ];
+                    fun_result = None;
+                    fun_body =
+                    Ast.LetExp {
+                      decs =
+                      [(Ast.FunctionDec
+                          [{ Ast.fun_name = ("indent", 13);
+                             fun_params =
+                             [{ Ast.field_name = ("s", 6);
+                                field_escape = ref (true);
+                                field_ty = ("string", 0) }
+                               ];
+                             fun_result = None;
+                             fun_body =
+                             (Ast.SeqExp
+                                [Ast.ForExp {var = ("i", 12);
+                                   escape = ref (true); lo = (Ast.IntExp 1);
+                                   hi =
+                                   (Ast.VarExp (Ast.SimpleVar ("n", 10)));
+                                   body =
+                                   Ast.CallExp {func = ("write", 8);
+                                     args = [(Ast.StringExp " ")]}};
+                                  Ast.AssignExp {
+                                    var = (Ast.SimpleVar ("output", 5));
+                                    exp =
+                                    Ast.CallExp {func = ("concat", 7);
+                                      args =
+                                      [(Ast.VarExp
+                                          (Ast.SimpleVar ("output", 5)));
+                                        (Ast.VarExp (Ast.SimpleVar ("s", 6)))
+                                        ]}};
+                                  Ast.CallExp {func = ("write", 8);
+                                    args = [(Ast.StringExp "\n")]}
+                                  ])
+                             }
+                            ])
+                        ];
+                      body =
+                      Ast.IfExp {
+                        test =
+                        Ast.OpExp {
+                          left = (Ast.VarExp (Ast.SimpleVar ("t", 11)));
+                          oper = Ast.EqOp; right = Ast.NilExp};
+                        then' =
+                        Ast.CallExp {func = ("indent", 13);
+                          args = [(Ast.StringExp ".")]};
+                        else' =
+                        (Some (Ast.SeqExp
+                                 [Ast.CallExp {func = ("indent", 13);
+                                    args =
+                                    [(Ast.VarExp
+                                        (Ast.FieldVar (
+                                           (Ast.SimpleVar ("t", 11)),
+                                           ("key", 1))))
+                                      ]};
+                                   Ast.CallExp {func = ("show", 14);
+                                     args =
+                                     [Ast.OpExp {
+                                        left =
+                                        (Ast.VarExp (Ast.SimpleVar ("n", 10)));
+                                        oper = Ast.PlusOp;
+                                        right = (Ast.IntExp 1)};
+                                       (Ast.VarExp
+                                          (Ast.FieldVar (
+                                             (Ast.SimpleVar ("t", 11)),
+                                             ("left", 3))))
+                                       ]};
+                                   Ast.CallExp {func = ("show", 14);
+                                     args =
+                                     [Ast.OpExp {
+                                        left =
+                                        (Ast.VarExp (Ast.SimpleVar ("n", 10)));
+                                        oper = Ast.PlusOp;
+                                        right = (Ast.IntExp 1)};
+                                       (Ast.VarExp
+                                          (Ast.FieldVar (
+                                             (Ast.SimpleVar ("t", 11)),
+                                             ("right", 4))))
+                                       ]}
+                                   ]))}}
+                    }
+                   ])
+              ];
+            body =
+            (Ast.SeqExp
+               [Ast.CallExp {func = ("show", 14);
+                  args =
+                  [(Ast.IntExp 0); (Ast.VarExp (Ast.SimpleVar ("tree", 2)))]};
+                 (Ast.VarExp (Ast.SimpleVar ("output", 5)))])}
+          }
+         ])
+    ];
+  body = (Ast.SeqExp [])}
+../testcases/test1.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrtype", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("arr1", 2); var_escape = ref (true);
+         var_ty = (Some ("arrtype", 1));
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype", 1); size = (Ast.IntExp 10);
+           init = (Ast.IntExp 0)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("arr1", 2)))}
+../testcases/test10.tig : Ast.WhileExp {
+  test =
+  Ast.OpExp {left = (Ast.IntExp 10); oper = Ast.GtOp; right = (Ast.IntExp 5)};
+  body =
+  Ast.OpExp {left = (Ast.IntExp 5); oper = Ast.PlusOp; right = (Ast.IntExp 6)}}
+../testcases/test11.tig : Ast.ForExp {var = ("i", 0); escape = ref (true); lo = (Ast.IntExp 10);
+  hi = (Ast.StringExp " ");
+  body =
+  Ast.AssignExp {var = (Ast.SimpleVar ("i", 0));
+    exp =
+    Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("i", 0)));
+      oper = Ast.MinusOp; right = (Ast.IntExp 1)}}}
+../testcases/test12.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) })
+    ];
+  body =
+  Ast.ForExp {var = ("i", 1); escape = ref (true); lo = (Ast.IntExp 0);
+    hi = (Ast.IntExp 100);
+    body =
+    (Ast.SeqExp
+       [Ast.AssignExp {var = (Ast.SimpleVar ("a", 0));
+          exp =
+          Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 0)));
+            oper = Ast.PlusOp; right = (Ast.IntExp 1)}};
+         (Ast.SeqExp [])])}}
+../testcases/test13.tig : Ast.OpExp {left = (Ast.IntExp 3); oper = Ast.GtOp;
+  right = (Ast.StringExp "df")}
+../testcases/test14.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrtype", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("rectype", 5);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("name", 3); field_escape = ref (true);
+                field_ty = ("string", 2) };
+               { Ast.field_name = ("id", 4); field_escape = ref (true);
+                 field_ty = ("int", 0) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec", 6); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 3), (Ast.StringExp "aname"));
+             (("id", 4), (Ast.IntExp 0))];
+           typ = ("rectype", 5)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("arr", 7); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype", 1); size = (Ast.IntExp 3);
+           init = (Ast.IntExp 0)}
+         })
+    ];
+  body =
+  Ast.IfExp {
+    test =
+    Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("rec", 6)));
+      oper = Ast.NeqOp; right = (Ast.VarExp (Ast.SimpleVar ("arr", 7)))};
+    then' = (Ast.IntExp 3); else' = (Some (Ast.IntExp 4))}}
+../testcases/test15.tig : Ast.IfExp {test = (Ast.IntExp 20); then' = (Ast.IntExp 3); else' = None}
+../testcases/test16.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("c", 0)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("b", 2); ty_ty = (Ast.NameTy ("a", 1)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("c", 0); ty_ty = (Ast.NameTy ("d", 3)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("d", 3); ty_ty = (Ast.NameTy ("a", 1)) }])
+    ];
+  body = (Ast.StringExp "")}
+../testcases/test17.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("tree", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("key", 1); field_escape = ref (true);
+               field_ty = ("int", 0) };
+              { Ast.field_name = ("children", 3); field_escape = ref (true);
+                field_ty = ("treelist", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("d", 5); var_escape = ref (true);
+         var_ty = (Some ("int", 0)); var_init = (Ast.IntExp 0) });
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("treelist", 2);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("hd", 6); field_escape = ref (true);
+                field_ty = ("tree", 4) };
+               { Ast.field_name = ("tl", 7); field_escape = ref (true);
+                 field_ty = ("treelist", 2) }
+               ])
+          }
+         ])
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("d", 5)))}
+../testcases/test18.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("do_nothing1", 5);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body =
+         (Ast.SeqExp
+            [Ast.CallExp {func = ("do_nothing2", 4);
+               args =
+               [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 1)));
+                  oper = Ast.PlusOp; right = (Ast.IntExp 1)}
+                 ]};
+              (Ast.IntExp 0)])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("d", 6); var_escape = ref (true); var_ty = None;
+         var_init = (Ast.IntExp 0) });
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("do_nothing2", 4);
+          fun_params =
+          [{ Ast.field_name = ("d", 6); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("string", 2));
+          fun_body =
+          (Ast.SeqExp
+             [Ast.CallExp {func = ("do_nothing1", 5);
+                args =
+                [(Ast.VarExp (Ast.SimpleVar ("d", 6))); (Ast.StringExp "str")
+                  ]};
+               (Ast.StringExp " ")])
+          }
+         ])
+    ];
+  body =
+  Ast.CallExp {func = ("do_nothing1", 5);
+    args = [(Ast.IntExp 0); (Ast.StringExp "str2")]}}
+../testcases/test19.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("do_nothing1", 5);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body =
+         (Ast.SeqExp
+            [Ast.CallExp {func = ("do_nothing2", 4);
+               args =
+               [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 1)));
+                  oper = Ast.PlusOp; right = (Ast.IntExp 1)}
+                 ]};
+              (Ast.IntExp 0)])
+         }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("do_nothing2", 4);
+          fun_params =
+          [{ Ast.field_name = ("d", 6); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("string", 2));
+          fun_body =
+          (Ast.SeqExp
+             [Ast.CallExp {func = ("do_nothing1", 5);
+                args =
+                [(Ast.VarExp (Ast.SimpleVar ("a", 1))); (Ast.StringExp "str")
+                  ]};
+               (Ast.StringExp " ")])
+          }
+         ])
+    ];
+  body =
+  Ast.CallExp {func = ("do_nothing1", 5);
+    args = [(Ast.IntExp 0); (Ast.StringExp "str2")]}}
+../testcases/test2.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("myint", 1); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("arrtype", 2); ty_ty = (Ast.ArrayTy ("myint", 1)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("arr1", 3); var_escape = ref (true);
+         var_ty = (Some ("arrtype", 2));
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype", 2); size = (Ast.IntExp 10);
+           init = (Ast.IntExp 0)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("arr1", 3)))}
+../testcases/test20.tig : Ast.WhileExp {
+  test =
+  Ast.OpExp {left = (Ast.IntExp 10); oper = Ast.GtOp; right = (Ast.IntExp 5)};
+  body =
+  (Ast.SeqExp
+     [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("i", 0)));
+        oper = Ast.PlusOp; right = (Ast.IntExp 1)};
+       (Ast.SeqExp [])])}
+../testcases/test21.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("nfactor", 2);
+         fun_params =
+         [{ Ast.field_name = ("n", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = None;
+         fun_body =
+         Ast.IfExp {
+           test =
+           Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+             oper = Ast.EqOp; right = (Ast.IntExp 0)};
+           then' = (Ast.IntExp 1);
+           else' =
+           (Some Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+                   oper = Ast.TimesOp;
+                   right =
+                   Ast.CallExp {func = ("nfactor", 2);
+                     args =
+                     [Ast.OpExp {
+                        left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+                        oper = Ast.MinusOp; right = (Ast.IntExp 1)}
+                       ]}})}
+         }
+        ])
+    ];
+  body = Ast.CallExp {func = ("nfactor", 2); args = [(Ast.IntExp 10)]}}
+../testcases/test22.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 5); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 1), (Ast.StringExp "Name"));
+             (("id", 3), (Ast.IntExp 0))];
+           typ = ("rectype", 4)}
+         })
+    ];
+  body =
+  Ast.AssignExp {
+    var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 5)), ("nam", 6)));
+    exp = (Ast.StringExp "asd")}}
+../testcases/test23.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 5); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 1), (Ast.StringExp "aname"));
+             (("id", 3), (Ast.IntExp 0))];
+           typ = ("rectype", 4)}
+         })
+    ];
+  body =
+  (Ast.SeqExp
+     [Ast.AssignExp {
+        var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 5)), ("name", 1)));
+        exp = (Ast.IntExp 3)};
+       Ast.AssignExp {
+         var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 5)), ("id", 3)));
+         exp = (Ast.StringExp "")}
+       ])}
+../testcases/test24.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("d", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) })
+    ];
+  body =
+  (Ast.VarExp (Ast.SubscriptVar ((Ast.SimpleVar ("d", 0)), (Ast.IntExp 3))))}
+../testcases/test25.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("d", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) })
+    ];
+  body = (Ast.VarExp (Ast.FieldVar ((Ast.SimpleVar ("d", 0)), ("f", 1))))}
+../testcases/test26.tig : Ast.OpExp {left = (Ast.IntExp 3); oper = Ast.PlusOp;
+  right = (Ast.StringExp "var")}
+../testcases/test27.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) });
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("g", 2);
+          fun_params =
+          [{ Ast.field_name = ("a", 0); field_escape = ref (true);
+             field_ty = ("int", 1) }
+            ];
+          fun_result = (Some ("int", 1));
+          fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 0))) }
+         ])
+    ];
+  body = Ast.CallExp {func = ("g", 2); args = [(Ast.IntExp 2)]}}
+../testcases/test28.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype1", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("rectype2", 5);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+                field_ty = ("string", 0) };
+               { Ast.field_name = ("id", 3); field_escape = ref (true);
+                 field_ty = ("int", 2) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 6); var_escape = ref (true);
+         var_ty = (Some ("rectype1", 4));
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 1), (Ast.StringExp "Name"));
+             (("id", 3), (Ast.IntExp 0))];
+           typ = ("rectype2", 5)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("rec1", 6)))}
+../testcases/test29.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrtype1", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("arrtype2", 2); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("arr1", 3); var_escape = ref (true);
+         var_ty = (Some ("arrtype1", 1));
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype2", 2); size = (Ast.IntExp 10);
+           init = (Ast.IntExp 0)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("arr1", 3)))}
+../testcases/test3.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("age", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 5); var_escape = ref (true);
+         var_ty = (Some ("rectype", 4));
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 1), (Ast.StringExp "Nobody"));
+             (("age", 3), (Ast.IntExp 1000))];
+           typ = ("rectype", 4)}
+         })
+    ];
+  body =
+  (Ast.SeqExp
+     [Ast.AssignExp {
+        var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 5)), ("name", 1)));
+        exp = (Ast.StringExp "Somebody")};
+       (Ast.VarExp (Ast.SimpleVar ("rec1", 5)))])}
+../testcases/test30.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("b", 2); ty_ty = (Ast.NameTy ("a", 1)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("arr1", 3); var_escape = ref (true);
+         var_ty = (Some ("a", 1));
+         var_init =
+         Ast.ArrayExp {typ = ("b", 2); size = (Ast.IntExp 10);
+           init = (Ast.IntExp 0)}
+         })
+    ];
+  body =
+  (Ast.VarExp
+     (Ast.SubscriptVar ((Ast.SimpleVar ("arr1", 3)), (Ast.IntExp 2))))}
+../testcases/test31.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 1); var_escape = ref (true);
+        var_ty = (Some ("int", 0)); var_init = (Ast.StringExp " ") })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 1)))}
+../testcases/test32.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrayty", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("a", 2); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.ArrayExp {typ = ("arrayty", 1); size = (Ast.IntExp 10);
+           init = (Ast.StringExp " ")}
+         })
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test33.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 1); var_escape = ref (true); var_ty = None;
+        var_init = Ast.RecordExp {fields = []; typ = ("rectype", 0)} })
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test34.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 4);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ])
+    ];
+  body =
+  Ast.CallExp {func = ("g", 4);
+    args = [(Ast.StringExp "one"); (Ast.StringExp "two")]}}
+../testcases/test35.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 4);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ])
+    ];
+  body = Ast.CallExp {func = ("g", 4); args = [(Ast.StringExp "one")]}}
+../testcases/test36.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 4);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ])
+    ];
+  body =
+  Ast.CallExp {func = ("g", 4);
+    args = [(Ast.IntExp 3); (Ast.StringExp "one"); (Ast.IntExp 5)]}}
+../testcases/test37.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) });
+    (Ast.VarDec
+       { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+         var_init = (Ast.StringExp " ") })
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test38.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("string", 2)) }])
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test39.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 2);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("g", 2);
+          fun_params =
+          [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("int", 0));
+          fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+         ])
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test3b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("age", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 5); var_escape = ref (true);
+         var_ty = (Some ("rectype", 4));
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("age", 3), (Ast.IntExp 1000));
+             (("name", 1), (Ast.StringExp "Nobody"))];
+           typ = ("rectype", 4)}
+         })
+    ];
+  body =
+  (Ast.SeqExp
+     [Ast.AssignExp {
+        var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 5)), ("name", 1)));
+        exp = (Ast.StringExp "Somebody")};
+       (Ast.VarExp (Ast.SimpleVar ("rec1", 5)))])}
+../testcases/test4.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("nfactor", 2);
+         fun_params =
+         [{ Ast.field_name = ("n", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body =
+         Ast.IfExp {
+           test =
+           Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+             oper = Ast.EqOp; right = (Ast.IntExp 0)};
+           then' = (Ast.IntExp 1);
+           else' =
+           (Some Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+                   oper = Ast.TimesOp;
+                   right =
+                   Ast.CallExp {func = ("nfactor", 2);
+                     args =
+                     [Ast.OpExp {
+                        left = (Ast.VarExp (Ast.SimpleVar ("n", 1)));
+                        oper = Ast.MinusOp; right = (Ast.IntExp 1)}
+                       ]}})}
+         }
+        ])
+    ];
+  body = Ast.CallExp {func = ("nfactor", 2); args = [(Ast.IntExp 10)]}}
+../testcases/test40.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 2);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = None; fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1)))
+         }
+        ])
+    ];
+  body = Ast.CallExp {func = ("g", 2); args = [(Ast.IntExp 2)]}}
+../testcases/test41.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("int", 0)) }])
+    ];
+  body =
+  Ast.LetExp {
+    decs =
+    [(Ast.TypeDec
+        [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("string", 2)) }])
+      ];
+    body = (Ast.IntExp 0)}}
+../testcases/test42.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrtype1", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("rectype1", 7);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("name", 3); field_escape = ref (true);
+                field_ty = ("string", 2) };
+               { Ast.field_name = ("address", 4); field_escape = ref (true);
+                 field_ty = ("string", 2) };
+               { Ast.field_name = ("id", 5); field_escape = ref (true);
+                 field_ty = ("int", 0) };
+               { Ast.field_name = ("age", 6); field_escape = ref (true);
+                 field_ty = ("int", 0) }
+               ])
+          }
+         ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("arrtype2", 8);
+          ty_ty = (Ast.ArrayTy ("rectype1", 7)) }
+         ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("rectype2", 10);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("name", 3); field_escape = ref (true);
+                field_ty = ("string", 2) };
+               { Ast.field_name = ("dates", 9); field_escape = ref (true);
+                 field_ty = ("arrtype1", 1) }
+               ])
+          }
+         ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("arrtype3", 11); ty_ty = (Ast.ArrayTy ("string", 2))
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("arr1", 12); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype1", 1); size = (Ast.IntExp 10);
+           init = (Ast.IntExp 0)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("arr2", 13); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype2", 8); size = (Ast.IntExp 5);
+           init =
+           Ast.RecordExp {
+             fields =
+             [(("name", 3), (Ast.StringExp "aname"));
+               (("address", 4), (Ast.StringExp "somewhere"));
+               (("id", 5), (Ast.IntExp 0)); (("age", 6), (Ast.IntExp 0))];
+             typ = ("rectype1", 7)}}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("arr3", 14); var_escape = ref (true);
+         var_ty = (Some ("arrtype3", 11));
+         var_init =
+         Ast.ArrayExp {typ = ("arrtype3", 11); size = (Ast.IntExp 100);
+           init = (Ast.StringExp "")}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("rec1", 15); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 3), (Ast.StringExp "Kapoios"));
+             (("address", 4), (Ast.StringExp "Kapou"));
+             (("id", 5), (Ast.IntExp 2432)); (("age", 6), (Ast.IntExp 44))];
+           typ = ("rectype1", 7)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("rec2", 16); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("name", 3), (Ast.StringExp "Allos"));
+             (("dates", 9),
+              Ast.ArrayExp {typ = ("arrtype1", 1); size = (Ast.IntExp 3);
+                init = (Ast.IntExp 1900)})
+             ];
+           typ = ("rectype2", 10)}
+         })
+    ];
+  body =
+  (Ast.SeqExp
+     [Ast.AssignExp {
+        var =
+        (Ast.SubscriptVar ((Ast.SimpleVar ("arr1", 12)), (Ast.IntExp 0)));
+        exp = (Ast.IntExp 1)};
+       Ast.AssignExp {
+         var =
+         (Ast.SubscriptVar ((Ast.SimpleVar ("arr1", 12)), (Ast.IntExp 9)));
+         exp = (Ast.IntExp 3)};
+       Ast.AssignExp {
+         var =
+         (Ast.FieldVar (
+            (Ast.SubscriptVar ((Ast.SimpleVar ("arr2", 13)), (Ast.IntExp 3))),
+            ("name", 3)));
+         exp = (Ast.StringExp "kati")};
+       Ast.AssignExp {
+         var =
+         (Ast.FieldVar (
+            (Ast.SubscriptVar ((Ast.SimpleVar ("arr2", 13)), (Ast.IntExp 1))),
+            ("age", 6)));
+         exp = (Ast.IntExp 23)};
+       Ast.AssignExp {
+         var =
+         (Ast.SubscriptVar ((Ast.SimpleVar ("arr3", 14)), (Ast.IntExp 34)));
+         exp = (Ast.StringExp "sfd")};
+       Ast.AssignExp {
+         var = (Ast.FieldVar ((Ast.SimpleVar ("rec1", 15)), ("name", 3)));
+         exp = (Ast.StringExp "sdf")};
+       Ast.AssignExp {
+         var =
+         (Ast.SubscriptVar (
+            (Ast.FieldVar ((Ast.SimpleVar ("rec2", 16)), ("dates", 9))),
+            (Ast.IntExp 0)));
+         exp = (Ast.IntExp 2323)};
+       Ast.AssignExp {
+         var =
+         (Ast.SubscriptVar (
+            (Ast.FieldVar ((Ast.SimpleVar ("rec2", 16)), ("dates", 9))),
+            (Ast.IntExp 2)));
+         exp = (Ast.IntExp 2323)}
+       ])}
+../testcases/test43.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.SeqExp []) })
+    ];
+  body =
+  Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 0))); oper = Ast.PlusOp;
+    right = (Ast.IntExp 3)}}
+../testcases/test44.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("b", 5); var_escape = ref (true);
+         var_ty = (Some ("rectype", 4)); var_init = Ast.NilExp })
+    ];
+  body = Ast.AssignExp {var = (Ast.SimpleVar ("b", 5)); exp = Ast.NilExp}}
+../testcases/test45.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("a", 5); var_escape = ref (true); var_ty = None;
+         var_init = Ast.NilExp })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 5)))}
+../testcases/test46.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rectype", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("name", 1); field_escape = ref (true);
+               field_ty = ("string", 0) };
+              { Ast.field_name = ("id", 3); field_escape = ref (true);
+                field_ty = ("int", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("b", 5); var_escape = ref (true);
+         var_ty = (Some ("rectype", 4)); var_init = Ast.NilExp })
+    ];
+  body =
+  (Ast.SeqExp
+     [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("b", 5)));
+        oper = Ast.EqOp; right = Ast.NilExp};
+       Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("b", 5)));
+         oper = Ast.NeqOp; right = Ast.NilExp}
+       ])}
+../testcases/test47.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("b", 2); var_escape = ref (true); var_ty = None;
+         var_init = (Ast.IntExp 4) });
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("string", 3)) }])
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test48.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 2);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("t", 3); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("g", 2);
+          fun_params =
+          [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("int", 0));
+          fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+         ])
+    ];
+  body = (Ast.IntExp 0)}
+../testcases/test49.tig : Fatal error: exception Interp.Parser.MenhirBasics.Error
+../testcases/test5.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("intlist", 2);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("hd", 1); field_escape = ref (true);
+               field_ty = ("int", 0) };
+              { Ast.field_name = ("tl", 3); field_escape = ref (true);
+                field_ty = ("intlist", 2) }
+              ])
+         }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("tree", 7);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("key", 4); field_escape = ref (true);
+                field_ty = ("int", 0) };
+               { Ast.field_name = ("children", 6); field_escape = ref (true);
+                 field_ty = ("treelist", 5) }
+               ])
+          }
+         ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("treelist", 5);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("hd", 1); field_escape = ref (true);
+                field_ty = ("tree", 7) };
+               { Ast.field_name = ("tl", 3); field_escape = ref (true);
+                 field_ty = ("treelist", 5) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("lis", 8); var_escape = ref (true);
+         var_ty = (Some ("intlist", 2));
+         var_init =
+         Ast.RecordExp {
+           fields = [(("hd", 1), (Ast.IntExp 0)); (("tl", 3), Ast.NilExp)];
+           typ = ("intlist", 2)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("lis", 8)))}
+../testcases/test6.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("do_nothing1", 5);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = None;
+         fun_body =
+         Ast.CallExp {func = ("do_nothing2", 4);
+           args =
+           [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 1)));
+              oper = Ast.PlusOp; right = (Ast.IntExp 1)}
+             ]}
+         }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("do_nothing2", 4);
+          fun_params =
+          [{ Ast.field_name = ("d", 6); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = None;
+          fun_body =
+          Ast.CallExp {func = ("do_nothing1", 5);
+            args =
+            [(Ast.VarExp (Ast.SimpleVar ("d", 6))); (Ast.StringExp "str")]}
+          }
+         ])
+    ];
+  body =
+  Ast.CallExp {func = ("do_nothing1", 5);
+    args = [(Ast.IntExp 0); (Ast.StringExp "str2")]}}
+../testcases/test7.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("do_nothing1", 5);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body =
+         (Ast.SeqExp
+            [Ast.CallExp {func = ("do_nothing2", 4);
+               args =
+               [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 1)));
+                  oper = Ast.PlusOp; right = (Ast.IntExp 1)}
+                 ]};
+              (Ast.IntExp 0)])
+         }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("do_nothing2", 4);
+          fun_params =
+          [{ Ast.field_name = ("d", 6); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("string", 2));
+          fun_body =
+          (Ast.SeqExp
+             [Ast.CallExp {func = ("do_nothing1", 5);
+                args =
+                [(Ast.VarExp (Ast.SimpleVar ("d", 6))); (Ast.StringExp "str")
+                  ]};
+               (Ast.StringExp " ")])
+          }
+         ])
+    ];
+  body =
+  Ast.CallExp {func = ("do_nothing1", 5);
+    args = [(Ast.IntExp 0); (Ast.StringExp "str2")]}}
+../testcases/test8.tig : Ast.IfExp {
+  test =
+  Ast.OpExp {left = (Ast.IntExp 10); oper = Ast.GtOp; right = (Ast.IntExp 20)};
+  then' = (Ast.IntExp 30); else' = (Some (Ast.IntExp 40))}
+../testcases/test9.tig : Ast.IfExp {
+  test =
+  Ast.OpExp {left = (Ast.IntExp 5); oper = Ast.GtOp; right = (Ast.IntExp 4)};
+  then' = (Ast.IntExp 13); else' = (Some (Ast.StringExp " "))}
+../additonalcases/reccmp.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("rt1", 2);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("x", 1); field_escape = ref (true);
+               field_ty = ("int", 0) };
+              { Ast.field_name = ("p", 3); field_escape = ref (true);
+                field_ty = ("rt1", 2) }
+              ])
+         }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("rt2", 4);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("x", 1); field_escape = ref (true);
+                field_ty = ("int", 0) };
+               { Ast.field_name = ("p", 3); field_escape = ref (true);
+                 field_ty = ("rt1", 2) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("a", 5); var_escape = ref (true);
+         var_ty = (Some ("rt1", 2));
+         var_init =
+         Ast.RecordExp {
+           fields = [(("x", 1), (Ast.IntExp 0)); (("p", 3), Ast.NilExp)];
+           typ = ("rt1", 2)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("b", 6); var_escape = ref (true);
+         var_ty = (Some ("rt1", 2));
+         var_init =
+         Ast.RecordExp {
+           fields = [(("x", 1), (Ast.IntExp 0)); (("p", 3), Ast.NilExp)];
+           typ = ("rt1", 2)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("c", 7); var_escape = ref (true);
+         var_ty = (Some ("rt2", 4));
+         var_init =
+         Ast.RecordExp {
+           fields = [(("x", 1), (Ast.IntExp 0)); (("p", 3), Ast.NilExp)];
+           typ = ("rt2", 4)}
+         })
+    ];
+  body =
+  Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 5))); oper = Ast.EqOp;
+    right = (Ast.VarExp (Ast.FieldVar ((Ast.SimpleVar ("b", 6)), ("p", 3))))}}
+../additonalcases/test16b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("c", 0)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("b", 2); ty_ty = (Ast.NameTy ("a", 1)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("c", 0); ty_ty = (Ast.NameTy ("d", 3)) }]);
+    (Ast.TypeDec [{ Ast.ty_name = ("d", 3); ty_ty = (Ast.NameTy ("a", 1)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("x", 4); var_escape = ref (true);
+         var_ty = (Some ("a", 1)); var_init = (Ast.IntExp 1) })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("x", 4)))}
+../additonalcases/test17b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("tree", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("key", 1); field_escape = ref (true);
+               field_ty = ("int", 0) };
+              { Ast.field_name = ("children", 3); field_escape = ref (true);
+                field_ty = ("treelist", 2) }
+              ])
+         }
+        ]);
+    (Ast.VarDec
+       { Ast.var_name = ("d", 5); var_escape = ref (true);
+         var_ty = (Some ("int", 0)); var_init = (Ast.IntExp 0) });
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("treelist", 2);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("hd", 6); field_escape = ref (true);
+                field_ty = ("tree", 4) };
+               { Ast.field_name = ("tl", 7); field_escape = ref (true);
+                 field_ty = ("treelist", 2) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("t", 8); var_escape = ref (true);
+         var_ty = (Some ("tree", 4));
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("key", 1), (Ast.IntExp 0)); (("children", 3), Ast.NilExp)];
+           typ = ("tree", 4)}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("t", 8)))}
+../additonalcases/test19b.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("do_nothing1", 5);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) };
+           { Ast.field_name = ("b", 3); field_escape = ref (true);
+             field_ty = ("string", 2) }
+           ];
+         fun_result = (Some ("string", 2));
+         fun_body =
+         (Ast.SeqExp
+            [Ast.CallExp {func = ("do_nothing2", 4);
+               args =
+               [Ast.OpExp {left = (Ast.VarExp (Ast.SimpleVar ("a", 1)));
+                  oper = Ast.PlusOp; right = (Ast.IntExp 1)}
+                 ]};
+              (Ast.StringExp " ")])
+         }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("do_nothing2", 4);
+          fun_params =
+          [{ Ast.field_name = ("d", 6); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("string", 2));
+          fun_body =
+          Ast.CallExp {func = ("do_nothing1", 5);
+            args =
+            [(Ast.VarExp (Ast.SimpleVar ("a", 1))); (Ast.StringExp "str")]}
+          }
+         ])
+    ];
+  body = Ast.CallExp {func = ("do_nothing2", 4); args = [(Ast.IntExp 0)]}}
+../additonalcases/test32b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("arrayty", 1); ty_ty = (Ast.ArrayTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("a", 2); var_escape = ref (true); var_ty = None;
+         var_init =
+         Ast.ArrayExp {typ = ("arrayty", 1); size = (Ast.IntExp 10);
+           init = (Ast.StringExp " ")}
+         })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 2)))}
+../additonalcases/test33b.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 1); var_escape = ref (true); var_ty = None;
+        var_init = Ast.RecordExp {fields = []; typ = ("rectype", 0)} })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 1)))}
+../additonalcases/test37b.tig : Ast.LetExp {
+  decs =
+  [(Ast.VarDec
+      { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+        var_init = (Ast.IntExp 0) });
+    (Ast.VarDec
+       { Ast.var_name = ("a", 0); var_escape = ref (true); var_ty = None;
+         var_init = (Ast.StringExp " ") })
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 0)))}
+../additonalcases/test38b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("string", 2)) }])
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 1)))}
+../additonalcases/test39b.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 2);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("g", 2);
+          fun_params =
+          [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("int", 0));
+          fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+         ])
+    ];
+  body = (Ast.VarExp (Ast.SimpleVar ("a", 1)))}
+../additonalcases/test41b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.VarDec
+       { Ast.var_name = ("x", 2); var_escape = ref (true);
+         var_ty = (Some ("a", 1)); var_init = (Ast.IntExp 0) })
+    ];
+  body =
+  Ast.LetExp {
+    decs =
+    [(Ast.TypeDec
+        [{ Ast.ty_name = ("a", 1); ty_ty = (Ast.NameTy ("string", 3)) }]);
+      (Ast.VarDec
+         { Ast.var_name = ("x", 2); var_escape = ref (true);
+           var_ty = (Some ("a", 1)); var_init = (Ast.StringExp "str") })
+      ];
+    body = (Ast.VarExp (Ast.SimpleVar ("x", 2)))}}
+../additonalcases/test48b.tig : Ast.LetExp {
+  decs =
+  [(Ast.FunctionDec
+      [{ Ast.fun_name = ("g", 2);
+         fun_params =
+         [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+            field_ty = ("int", 0) }
+           ];
+         fun_result = (Some ("int", 0));
+         fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("t", 3); ty_ty = (Ast.NameTy ("int", 0)) }]);
+    (Ast.FunctionDec
+       [{ Ast.fun_name = ("g", 2);
+          fun_params =
+          [{ Ast.field_name = ("a", 1); field_escape = ref (true);
+             field_ty = ("int", 0) }
+            ];
+          fun_result = (Some ("int", 0));
+          fun_body = (Ast.VarExp (Ast.SimpleVar ("a", 1))) }
+         ])
+    ];
+  body = Ast.CallExp {func = ("g", 2); args = [(Ast.IntExp 2)]}}
+../additonalcases/test5b.tig : Ast.LetExp {
+  decs =
+  [(Ast.TypeDec
+      [{ Ast.ty_name = ("intrec", 4);
+         ty_ty =
+         (Ast.RecordTy
+            [{ Ast.field_name = ("hd", 1); field_escape = ref (true);
+               field_ty = ("int", 0) };
+              { Ast.field_name = ("tl", 3); field_escape = ref (true);
+                field_ty = ("strrec", 2) }
+              ])
+         }
+        ]);
+    (Ast.TypeDec
+       [{ Ast.ty_name = ("strrec", 2);
+          ty_ty =
+          (Ast.RecordTy
+             [{ Ast.field_name = ("hd", 1); field_escape = ref (true);
+                field_ty = ("string", 5) };
+               { Ast.field_name = ("tl", 3); field_escape = ref (true);
+                 field_ty = ("intrec", 4) }
+               ])
+          }
+         ]);
+    (Ast.VarDec
+       { Ast.var_name = ("l1", 6); var_escape = ref (true);
+         var_ty = (Some ("intrec", 4));
+         var_init =
+         Ast.RecordExp {
+           fields = [(("hd", 1), (Ast.IntExp 0)); (("tl", 3), Ast.NilExp)];
+           typ = ("intrec", 4)}
+         });
+    (Ast.VarDec
+       { Ast.var_name = ("l2", 7); var_escape = ref (true);
+         var_ty = (Some ("strrec", 2));
+         var_init =
+         Ast.RecordExp {
+           fields =
+           [(("hd", 1), (Ast.StringExp "a")); (("tl", 3), Ast.NilExp)];
+           typ = ("strrec", 2)}
+         })
+    ];
+  body =
+  Ast.OpExp {
+    left = (Ast.VarExp (Ast.FieldVar ((Ast.SimpleVar ("l1", 6)), ("hd", 1))));
+    oper = Ast.PlusOp;
+    right =
+    Ast.CallExp {func = ("ord", 8);
+      args =
+      [(Ast.VarExp (Ast.FieldVar ((Ast.SimpleVar ("l2", 7)), ("hd", 1))))]}}}
+../additonalcases/teststrcmp.tig : Ast.OpExp {left = (Ast.StringExp "ab"); oper = Ast.GtOp;
+  right = (Ast.StringExp "cd")}

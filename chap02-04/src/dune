@@ -1,0 +1,8 @@
+(menhir
+ (modules parser))
+
+(ocamllex lexer)
+
+(library
+ (preprocess (pps ppx_deriving.show))
+ (name interp))
