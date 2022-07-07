@@ -1,10 +1,11 @@
 /* error: mutually recursive types thet do not pass through record or array */
 let 
 
-type a=c
+type a=int
 type b=a
-type c=d
-type d=a
+type c=b
+type d=c
+type a=d
 
 in
  ""
