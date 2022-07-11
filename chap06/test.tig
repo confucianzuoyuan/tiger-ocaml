@@ -1,0 +1,9 @@
+let
+  type a = int
+  type b = int
+  type c = int
+  type d = int
+
+in
+""
+end

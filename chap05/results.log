@@ -1,80 +1,162 @@
-../testcases/nested_funcs.tig : Semant.ExpTy {ty = Types.UNIT}
-../testcases/test1.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
-../testcases/test10.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
-../testcases/test11.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../testcases/test12.tig : Semant.ExpTy {ty = Types.UNIT}
-../testcases/test13.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../testcases/test14.tig : Fatal error: exception Failure("type mismatch: expected record, actual array of int")
-../testcases/test15.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
-../testcases/test16.tig : Fatal error: exception Failure("cyclic dependency: ")
-../testcases/test17.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test18.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test19.tig : Fatal error: exception Failure("undefined variable: a")
-../testcases/test2.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
-../testcases/test20.tig : Fatal error: exception Failure("undefined variable: i")
-../testcases/test21.tig : Fatal error: exception Failure("integer required. but got type: unit")
-../testcases/test22.tig : Fatal error: exception Failure("field not found: nam")
-../testcases/test23.tig : Fatal error: exception Failure("type mismatch: expected string, actual int")
-../testcases/test24.tig : Fatal error: exception Failure("not an array")
-../testcases/test25.tig : Fatal error: exception Failure("not a record: int")
-../testcases/test26.tig : Fatal error: exception Failure("integer required. but got type: string")
-../testcases/test27.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test28.tig : Semant.ExpTy {
-  ty =
-  (Types.RECORD ([(("name", 13), Types.STRING); (("id", 14), Types.INT)],
-     ref (())))}
-../testcases/test29.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
-../testcases/test3.tig : Semant.ExpTy {
-  ty =
-  (Types.RECORD ([(("name", 13), Types.STRING); (("age", 14), Types.INT)],
-     ref (())))}
-../testcases/test30.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test31.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../testcases/test32.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../testcases/test33.tig : Fatal error: exception Failure("record type not found: rectype")
-../testcases/test34.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../testcases/test35.tig : Fatal error: exception Invalid_argument("List.combine")
-../testcases/test36.tig : Fatal error: exception Invalid_argument("List.combine")
-../testcases/test37.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test38.tig : Fatal error: exception Failure("duplicated definition: a")
-../testcases/test39.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test3b.tig : Fatal error: exception Failure("type mismatch: expected string, actual int")
-../testcases/test4.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test40.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
-../testcases/test41.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test42.tig : Semant.ExpTy {ty = Types.UNIT}
-../testcases/test43.tig : Fatal error: exception Failure("integer required. but got type: unit")
-../testcases/test44.tig : Semant.ExpTy {ty = Types.UNIT}
-../testcases/test45.tig : Fatal error: exception Failure("nil can be used only in the long form.")
-../testcases/test46.tig : Fatal error: exception Failure("type error for equality operator: nil")
-../testcases/test47.tig : Fatal error: exception Failure("duplicated definition: a")
-../testcases/test48.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/nested_funcs.tig : { Semant.exp = (); ty = Types.UNIT }
+../testcases/test1.tig : { Semant.exp = ();
+  ty = (Types.ARRAY ((Types.NAME (("int", 0), ref (None))), ref (()))) }
+../testcases/test10.tig : error: body of while not unit
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test11.tig : error: hi expr is not int
+error : index variable erroneously assigned to
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test12.tig : { Semant.exp = (); ty = Types.UNIT }
+../testcases/test13.tig : error: comparison of incompatible types
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test14.tig : no such type
+error : comparison expected both int, string, record, or array
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test15.tig : error: if-then returns non unit
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test16.tig : { Semant.exp = (); ty = Types.STRING }
+../testcases/test17.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test18.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test19.tig : error: undeclared variable a
+error: formals and actuals have different types
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test2.tig : error: initializing exp and array type differ
+{ Semant.exp = ();
+  ty = (Types.ARRAY ((Types.NAME (("myint", 13), ref (None))), ref (()))) }
+../testcases/test20.tig : error: undeclared variable i
+error: integer required
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test21.tig : error: integer required
+Function body type doesn't match return type in function nfactor
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test22.tig : no such field
+error: mismatched types in assignment
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test23.tig : error: mismatched types in assignment
+error: mismatched types in assignment
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test24.tig : requires array
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test25.tig : error: variable not record
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test26.tig : error: integer required
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test27.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test28.tig : type not recognized
+error: undeclared variable rec1
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test29.tig : type not recognized
+error: undeclared variable arr1
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test3.tig : { Semant.exp = (); ty = (Types.RECORD (<fun>, ref (()))) }
+../testcases/test30.tig : type not recognized
+error: undeclared variable arr1
+requires array
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test31.tig : error: mismatched types in vardec
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test32.tig : error: initializing exp and array type differ
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test33.tig : error : invalid record type: rectype
+error: initializing nil expressions not constrained by record type
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test34.tig : error: formals and actuals have different types
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test35.tig : error: formals and actuals have different types
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test36.tig : error: formals are fewer than actuals
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test37.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test38.tig : error : two types of same name in mutually recursive tydec
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test39.tig : error : two types of same name in mutually recursive fundec
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test3b.tig : { Semant.exp = (); ty = (Types.RECORD (<fun>, ref (()))) }
+../testcases/test4.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test40.tig : Function body type doesn't match return type in function g
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test41.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test42.tig : no such type
+no such type
+error : invalid record type: rectype1
+error: initializing nil expressions not constrained by record type
+error : invalid record type: rectype2
+error: initializing nil expressions not constrained by record type
+requires array
+error: mismatched types in assignment
+requires array
+error: mismatched types in assignment
+requires array
+error: variable not record
+error: mismatched types in assignment
+requires array
+error: variable not record
+error: mismatched types in assignment
+error: variable not record
+error: mismatched types in assignment
+error: variable not record
+requires array
+error: mismatched types in assignment
+error: variable not record
+requires array
+error: mismatched types in assignment
+{ Semant.exp = (); ty = Types.UNIT }
+../testcases/test43.tig : error: integer required
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test44.tig : { Semant.exp = (); ty = Types.UNIT }
+../testcases/test45.tig : error: initializing nil expressions not constrained by record type
+{ Semant.exp = (); ty = Types.NIL }
+../testcases/test46.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test47.tig : error : two types of same name in mutually recursive tydec
+{ Semant.exp = (); ty = Types.INT }
+../testcases/test48.tig : error : two types of same name in mutually recursive fundec
+{ Semant.exp = (); ty = Types.INT }
 ../testcases/test49.tig : Fatal error: exception Interp.Parser.MenhirBasics.Error
-../testcases/test5.tig : Semant.ExpTy {
-  ty =
-  (Types.RECORD (
-     [(("hd", 13), Types.INT);
-       (("tl", 15), (Types.NAME (("intlist", 14), ref (None))))],
-     ref (())))}
-../testcases/test6.tig : Semant.ExpTy {ty = Types.UNIT}
-../testcases/test7.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test8.tig : Semant.ExpTy {ty = Types.INT}
-../testcases/test9.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../additonalcases/reccmp.tig : Semant.ExpTy {ty = Types.INT}
-../additonalcases/test16b.tig : Fatal error: exception Failure("type not found: ")
-../additonalcases/test17b.tig : Semant.ExpTy {
-  ty =
-  (Types.RECORD (
-     [(("key", 13), Types.INT);
-       (("children", 15), (Types.NAME (("treelist", 14), ref (None))))],
-     ref (())))}
-../additonalcases/test19b.tig : Fatal error: exception Failure("undefined variable: a")
-../additonalcases/test32b.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
-../additonalcases/test33b.tig : Fatal error: exception Failure("record type not found: rectype")
-../additonalcases/test37b.tig : Semant.ExpTy {ty = Types.STRING}
-../additonalcases/test38b.tig : Fatal error: exception Failure("duplicated definition: a")
-../additonalcases/test39b.tig : Fatal error: exception Failure("undefined variable: a")
-../additonalcases/test41b.tig : Semant.ExpTy {ty = Types.STRING}
-../additonalcases/test48b.tig : Semant.ExpTy {ty = Types.INT}
-../additonalcases/test5b.tig : Semant.ExpTy {ty = Types.INT}
-../additonalcases/teststrcmp.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test5.tig : type not recognized
+error: undeclared variable lis
+{ Semant.exp = (); ty = Types.BOTTOM }
+../testcases/test6.tig : { Semant.exp = (); ty = Types.UNIT }
+../testcases/test7.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test8.tig : { Semant.exp = (); ty = Types.INT }
+../testcases/test9.tig : error: types of then - else differ
+{ Semant.exp = (); ty = Types.INT }
+../additonalcases/reccmp.tig : type not recognized
+type not recognized
+unknown type in record: rt2
+error: undeclared variable b
+error: variable not record
+error: undeclared variable a
+error : comparison expected both int, string, record, or array
+{ Semant.exp = (); ty = Types.INT }
+../additonalcases/test16b.tig : type not recognized
+error: undeclared variable x
+{ Semant.exp = (); ty = Types.BOTTOM }
+../additonalcases/test17b.tig : type not recognized
+error: undeclared variable t
+{ Semant.exp = (); ty = Types.BOTTOM }
+../additonalcases/test19b.tig : error: undeclared variable a
+error: formals and actuals have different types
+{ Semant.exp = (); ty = Types.STRING }
+../additonalcases/test32b.tig : error: initializing exp and array type differ
+{ Semant.exp = ();
+  ty = (Types.ARRAY ((Types.NAME (("int", 0), ref (None))), ref (()))) }
+../additonalcases/test33b.tig : error : invalid record type: rectype
+error: initializing nil expressions not constrained by record type
+{ Semant.exp = (); ty = Types.NIL }
+../additonalcases/test37b.tig : { Semant.exp = (); ty = Types.STRING }
+../additonalcases/test38b.tig : error : two types of same name in mutually recursive tydec
+error: undeclared variable a
+{ Semant.exp = (); ty = Types.BOTTOM }
+../additonalcases/test39b.tig : error : two types of same name in mutually recursive fundec
+error: undeclared variable a
+{ Semant.exp = (); ty = Types.BOTTOM }
+../additonalcases/test41b.tig : { Semant.exp = (); ty = Types.STRING }
+../additonalcases/test48b.tig : error : two types of same name in mutually recursive fundec
+{ Semant.exp = (); ty = Types.INT }
+../additonalcases/test5b.tig : type not recognized
+unknown type in record: strrec
+error: undeclared variable l1
+error: variable not record
+error: integer required
+{ Semant.exp = (); ty = Types.INT }
+../additonalcases/teststrcmp.tig : { Semant.exp = (); ty = Types.INT }

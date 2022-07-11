@@ -10,4 +10,6 @@ let parse () =
 
 let semant () =
   let ast = parse () in
-  Semant.trans_prog(ast)
+  let _ = Findescape.find_escape ast in
+  let _ = print_endline (Ast.show_exp ast) in
+  Semant.transExp Env.base_venv Env.base_tenv ast

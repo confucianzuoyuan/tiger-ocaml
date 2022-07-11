@@ -1,0 +1,80 @@
+../testcases/nested_funcs.tig : Semant.ExpTy {ty = Types.UNIT}
+../testcases/test1.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
+../testcases/test10.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
+../testcases/test11.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../testcases/test12.tig : Semant.ExpTy {ty = Types.UNIT}
+../testcases/test13.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../testcases/test14.tig : Fatal error: exception Failure("type mismatch: expected record, actual array of int")
+../testcases/test15.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
+../testcases/test16.tig : Fatal error: exception Failure("cyclic dependency: ")
+../testcases/test17.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test18.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test19.tig : Fatal error: exception Failure("undefined variable: a")
+../testcases/test2.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
+../testcases/test20.tig : Fatal error: exception Failure("undefined variable: i")
+../testcases/test21.tig : Fatal error: exception Failure("integer required. but got type: unit")
+../testcases/test22.tig : Fatal error: exception Failure("field not found: nam")
+../testcases/test23.tig : Fatal error: exception Failure("type mismatch: expected string, actual int")
+../testcases/test24.tig : Fatal error: exception Failure("not an array")
+../testcases/test25.tig : Fatal error: exception Failure("not a record: int")
+../testcases/test26.tig : Fatal error: exception Failure("integer required. but got type: string")
+../testcases/test27.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test28.tig : Semant.ExpTy {
+  ty =
+  (Types.RECORD ([(("name", 13), Types.STRING); (("id", 14), Types.INT)],
+     ref (())))}
+../testcases/test29.tig : Semant.ExpTy {ty = (Types.ARRAY (Types.INT, ref (())))}
+../testcases/test3.tig : Semant.ExpTy {
+  ty =
+  (Types.RECORD ([(("name", 13), Types.STRING); (("age", 14), Types.INT)],
+     ref (())))}
+../testcases/test30.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test31.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../testcases/test32.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../testcases/test33.tig : Fatal error: exception Failure("record type not found: rectype")
+../testcases/test34.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../testcases/test35.tig : Fatal error: exception Invalid_argument("List.combine")
+../testcases/test36.tig : Fatal error: exception Invalid_argument("List.combine")
+../testcases/test37.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test38.tig : Fatal error: exception Failure("duplicated definition: a")
+../testcases/test39.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test3b.tig : Fatal error: exception Failure("type mismatch: expected string, actual int")
+../testcases/test4.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test40.tig : Fatal error: exception Failure("type mismatch: expected unit, actual int")
+../testcases/test41.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test42.tig : Semant.ExpTy {ty = Types.UNIT}
+../testcases/test43.tig : Fatal error: exception Failure("integer required. but got type: unit")
+../testcases/test44.tig : Semant.ExpTy {ty = Types.UNIT}
+../testcases/test45.tig : Fatal error: exception Failure("nil can be used only in the long form.")
+../testcases/test46.tig : Fatal error: exception Failure("type error for equality operator: nil")
+../testcases/test47.tig : Fatal error: exception Failure("duplicated definition: a")
+../testcases/test48.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test49.tig : Fatal error: exception Interp.Parser.MenhirBasics.Error
+../testcases/test5.tig : Semant.ExpTy {
+  ty =
+  (Types.RECORD (
+     [(("hd", 13), Types.INT);
+       (("tl", 15), (Types.NAME (("intlist", 14), ref (None))))],
+     ref (())))}
+../testcases/test6.tig : Semant.ExpTy {ty = Types.UNIT}
+../testcases/test7.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test8.tig : Semant.ExpTy {ty = Types.INT}
+../testcases/test9.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../additonalcases/reccmp.tig : Semant.ExpTy {ty = Types.INT}
+../additonalcases/test16b.tig : Fatal error: exception Failure("type not found: ")
+../additonalcases/test17b.tig : Semant.ExpTy {
+  ty =
+  (Types.RECORD (
+     [(("key", 13), Types.INT);
+       (("children", 15), (Types.NAME (("treelist", 14), ref (None))))],
+     ref (())))}
+../additonalcases/test19b.tig : Fatal error: exception Failure("undefined variable: a")
+../additonalcases/test32b.tig : Fatal error: exception Failure("type mismatch: expected int, actual string")
+../additonalcases/test33b.tig : Fatal error: exception Failure("record type not found: rectype")
+../additonalcases/test37b.tig : Semant.ExpTy {ty = Types.STRING}
+../additonalcases/test38b.tig : Fatal error: exception Failure("duplicated definition: a")
+../additonalcases/test39b.tig : Fatal error: exception Failure("undefined variable: a")
+../additonalcases/test41b.tig : Semant.ExpTy {ty = Types.STRING}
+../additonalcases/test48b.tig : Semant.ExpTy {ty = Types.INT}
+../additonalcases/test5b.tig : Semant.ExpTy {ty = Types.INT}
+../additonalcases/teststrcmp.tig : Semant.ExpTy {ty = Types.INT}
