@@ -9,5 +9,5 @@ let parse () =
     ast
 
 let semant () =
-  let ast = parse () in
+  let ast = parse () in let _ = Printast.print ast in
   Semant.trans_prog(ast)
