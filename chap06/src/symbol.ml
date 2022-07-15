@@ -17,7 +17,7 @@ let symbol name =
     let _ = Hashtbl.add hashtable name i in
     (name, i)
 
-let symbol_name (name, _) = name
+let name (name, _) = name
 
 (** 构建符号表，以下定义表示map的key是symbol，
     value在实例化时确定 *)
@@ -29,7 +29,7 @@ module Table = Map.Make(
 )
 
 let empty = Table.empty
-let enter = Table.add
-let look key table =
+let enter (t, k, v) = Table.add k v t
+let look (table, key) =
   try Some(Table.find key table)
   with Not_found -> None

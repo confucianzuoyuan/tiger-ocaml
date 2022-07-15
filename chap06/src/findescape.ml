@@ -1,87 +1,55 @@
-[@@@warning "-8"]
-
 module S = Symbol
 module A = Ast
 
 type depth = int
+[@@deriving show]
 
-let rec tranverseVar escape_env depth s =
-  match s with
-  | A.SimpleVar sym -> (match S.look sym escape_env with Some(d',esc) -> if depth > d' then esc := true else ())
-  | A.FieldVar(var,_)
-  | A.SubscriptVar(var,_) -> tranverseVar escape_env depth var
+type escape_env = (depth * bool ref) S.Table.t
 
-and tranverseExp escape_env depth s =
-  match s with
-  | A.VarExp var -> tranverseVar escape_env depth var
-  | A.NilExp -> ()
-  | A.IntExp _ -> ()
-  | A.StringExp _ -> ()
-  | A.CallExp{args;_} ->
-    List.fold_left
-    (fun _ arg -> tranverseExp escape_env depth arg)
-    ()
-    args
-  | A.OpExp{left;right;_} ->
-    let _ = tranverseExp escape_env depth left in
-    let _ = tranverseExp escape_env depth right in
-    ()
-  | A.RecordExp{fields;_} ->
-    List.fold_left
-    (fun _ (_,exp) -> tranverseExp escape_env depth exp)
-    ()
-    fields
-  | A.SeqExp exps ->
-    List.fold_left
-    (fun _ exp -> tranverseExp escape_env depth exp)
-    ()
-    exps
-  | A.AssignExp{var;exp} ->
-    let _ = tranverseVar escape_env depth var in
-    let _ = tranverseExp escape_env depth exp in
-    ()
-  | A.IfExp{test;then';else'} ->
-    let _ = tranverseExp escape_env depth test in
-    let _ = tranverseExp escape_env depth then' in
-    begin
-    match else' with
-    | Some else'' -> tranverseExp escape_env depth else''
-    | None -> ()
-    end
-  | A.WhileExp{test;body} -> let _ = tranverseExp escape_env depth test in tranverseExp escape_env depth body
-  | A.ForExp{var;escape;lo;hi;body} ->
-    let new_escape_env = S.enter var (depth,escape) escape_env in
-    let _ = escape := false in
-    let _ = tranverseExp escape_env depth lo in
-    let _ = tranverseExp escape_env depth hi in
-    tranverseExp new_escape_env depth body
-  | A.BreakExp -> ()
-  | A.LetExp{decs;body} ->
-    let new_escape_env = tranverseDecs escape_env depth decs in
-    tranverseExp new_escape_env depth body
-  | A.ArrayExp{size;init;_} ->
-    let _ = tranverseExp escape_env depth size in
-    tranverseExp escape_env depth init
+let rec traverse_var esc_env depth var =
+  let rec trvar = function
+    | A.SimpleVar(sym) ->
+      begin match S.look(esc_env, sym) with
+        | Some(depth', escape') -> if depth' < depth then escape' := true else ()
+        | _ -> ()
+      end
+    | A.FieldVar(var', _) -> trvar var'
+    | A.SubscriptVar(var', exp) -> (trvar var'; traverse_exp esc_env depth exp)
+  in trvar var
 
-and tranverseDecs escape_env depth s =
-  let do_dec escape_env dec =
-    match dec with
-    | A.VarDec vardec ->
-      let _ = vardec.var_escape := false in let _ = tranverseExp escape_env depth vardec.var_init in
-      S.enter vardec.var_name (depth,vardec.var_escape) escape_env
-    | A.TypeDec _ -> escape_env
-    | A.FunctionDec fundecs ->
-      let helper acc (fd : A.field) =
-        let _ = fd.field_escape := false in S.enter fd.field_name (depth+1,fd.field_escape) acc
-      in
-      List.fold_left
-      (fun acc (f : A.fundec) -> let new_escape_env = List.fold_left helper acc f.fun_params in let _ = tranverseExp new_escape_env (depth+1) f.fun_body in acc)
-      escape_env
-      fundecs
+and traverse_exp esc_env depth exp =
+  let rec trexp = function
+    | A.VarExp(var) -> traverse_var esc_env depth var
+    | A.NilExp
+    | A.IntExp(_)
+    | A.StringExp(_) -> ()
+    | A.CallExp{func=_; args} -> List.iter trexp args
+    | A.OpExp{left;oper=_;right} -> (trexp left; trexp right)
+    | A.RecordExp{fields; typ=_} -> let eval_field (_, exp) = trexp exp in List.iter eval_field fields
+    | A.SeqExp(explist) -> let eval_exp exp = trexp exp in List.iter eval_exp explist
+    | A.AssignExp{var; exp} -> (traverse_var esc_env depth var; trexp exp)
+    | A.IfExp{test;then';else'} -> (trexp test; trexp then'; (match else' with Some(exp') -> trexp exp' | _ -> ()))
+    | A.WhileExp{test;body} -> (trexp test; trexp body)
+    | A.ForExp{var;escape;lo;hi;body} -> let env' = S.enter(esc_env, var, (depth, escape)) in (traverse_exp env' depth lo; traverse_exp env' depth hi; traverse_exp env' depth body)
+    | A.BreakExp -> ()
+    | A.LetExp{decs;body} -> let env' = traverse_decs esc_env depth decs in traverse_exp env' depth body
+    | A.ArrayExp{typ=_;size;init} -> (trexp size; trexp init)
   in
-  List.fold_left
-  do_dec
-  escape_env
-  s
+    trexp exp
 
-let find_escape prog = let tb = S.empty in tranverseExp tb 0 prog
+and traverse_decs esc_env depth dec =
+  let rec trdec = function
+    | A.FunctionDec(fundecs) ->
+      let add_param_to_env acc (field : A.field) = S.enter(acc, field.field_name, (depth+1, field.field_escape)) in
+      let eval_fundec (fundec : A.fundec) = let env' = List.fold_left add_param_to_env esc_env fundec.fun_params in (traverse_exp env' (depth+1) fundec.fun_body)
+      in
+        (List.iter eval_fundec fundecs; esc_env)
+    | A.VarDec{var_name;var_escape;var_ty=_;var_init} -> let env' = S.enter(esc_env, var_name, (depth, var_escape)) in (traverse_exp env' depth var_init; env')
+    | A.TypeDec(_) -> esc_env
+  and fold_decs _ dec = trdec dec
+  in
+    List.fold_left fold_decs esc_env dec
+;;
+
+let find_escape prog = traverse_exp S.empty 0 prog
+;;

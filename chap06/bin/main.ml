@@ -1,5 +1,4 @@
 open Interp
 open Main
-open Semant
 
-let _ = print_endline (show_expty (semant ()))
+let _ = List.map print_endline (List.map Frame.show_frag (semant ()))
