@@ -1,4 +1,7 @@
 open Interp
-open Main
 
-let _ = List.map print_endline (List.map Frame.show_frag (semant ()))
+let _ =
+  begin
+  Translate.resetFragList();
+  let fraglist = Main.compile() in (List.iter Main.print_frag fraglist)
+  end

@@ -78,3 +78,17 @@ let external_call (s, args) = Ir.CALL(Ir.NAME(Temp.namedlabel s), args)
 
 let proc_entry_exit1 (_, stm) = stm
 ;;
+
+let print_frame (frame : frame) =
+  begin
+  print_string ("FRAME with name = " ^ (Symbol.name frame.name) ^ "\n");
+  print_string ("numlocals = " ^ (string_of_int (!(frame.num_locals))) ^ " cur_offset = " ^ (string_of_int (!(frame.cur_offset))) ^ "\n")
+  end
+;;
+
+let print_access fraccess =
+  match fraccess with
+  | InFrame(offset) -> print_string ("inframe " ^ (string_of_int offset) ^ "\n")
+  | _ -> print_string "temp\n"
+;;
+
